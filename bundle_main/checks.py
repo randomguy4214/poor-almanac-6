@@ -4,6 +4,7 @@ print('0 checks - initiated')
 
 import os
 import pandas as pd
+import FundamentalAnalysis as fa
 
 pd.options.mode.chained_assignment = None  # default='warn'
 
@@ -14,6 +15,7 @@ temp_folder = "temp"
 prices_temp = "prices"
 financials_quarterly_temp = "financials_quarterly"
 financials_annually_temp = "financials_annually"
+other_folder = "other"
 
 # check folder 0_input
 if not os.path.exists(os.path.join(cwd,input_folder)):
@@ -27,28 +29,35 @@ if not os.path.exists(os.path.join(cwd,input_folder,temp_folder)):
     os.mkdir(os.path.join(cwd,input_folder,temp_folder))
     print("temp folder created")
 else:
-    print("temp folder exists")
+    print("good! temp folder exists")
 
 # check temp prices folders
 if not os.path.exists(os.path.join(cwd,input_folder,temp_folder, prices_temp)):
     os.mkdir(os.path.join(cwd,input_folder,temp_folder, prices_temp))
     print("temp prices csv folder created")
 else:
-    print("temp prices csv folder exists")
+    print("good! temp prices csv folder exists")
 
 # check prices and financials folders
 if not os.path.exists(os.path.join(cwd, input_folder, temp_folder, financials_quarterly_temp)):
     os.mkdir(os.path.join(cwd, input_folder, temp_folder, financials_quarterly_temp))
     print("temp financials csv folder created")
 else:
-    print("temp financials csv exists")
+    print("good! temp financials csv exists")
 
 # check prices and financials folders
 if not os.path.exists(os.path.join(cwd, input_folder, temp_folder, financials_annually_temp)):
     os.mkdir(os.path.join(cwd, input_folder, temp_folder, financials_annually_temp))
     print("temp financials_annually folder created")
 else:
-    print("temp financials_annually exists")
+    print("good! temp financials_annually exists")
+
+# check other folder
+if not os.path.exists(os.path.join(cwd, input_folder, temp_folder, other_folder)):
+    os.mkdir(os.path.join(cwd, input_folder, temp_folder, other_folder))
+    print("temp other folder created")
+else:
+    print("good! temp other exists")
 
 # check drop list tickers
 if not os.path.exists(os.path.join(cwd,input_folder,"0_drop_list.xlsx")):
@@ -101,5 +110,21 @@ if not os.path.exists(os.path.join(cwd,input_folder,temp_folder,"financials_annu
     print("financials_annually_last_ticker created")
 else:
     print("good! financials_annually_last_ticker already exists")
+
+# check other_last_ticker
+if not os.path.exists(os.path.join(cwd,input_folder,temp_folder,"other_last_ticker.csv")):
+    financials_annually_last_ticker = pd.DataFrame({'number': [0] })
+    financials_annually_last_ticker.to_csv(os.path.join(cwd,input_folder,temp_folder,"other_last_ticker.csv"))
+    print("other_last_ticker created")
+else:
+    print("good! other_last_ticker already exists")
+
+# check API_key
+if not os.path.exists(os.path.join(cwd,"API_key.csv")):
+    financials_annually_last_ticker = pd.DataFrame({'API_key': [0] })
+    financials_annually_last_ticker.to_csv(os.path.join(cwd,"API_key.csv"))
+    print("API_key created / please put your number in!!!")
+else:
+    print("good! API_key already exists")
 
 print('0 checks - done')

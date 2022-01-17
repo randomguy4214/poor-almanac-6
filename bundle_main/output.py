@@ -14,6 +14,11 @@ pd.options.mode.use_inf_as_na = True
 # set directories and files
 cwd = os.getcwd()
 input_folder = "0_input"
+prices_folder = "data"
+output_folder = "0_output"
+temp_folder = "temp"
+prices_temp = "prices"
+financials_temp = "financials"
 
 # import files
 drop_list = pd.read_excel(os.path.join(cwd,input_folder,"0_drop_list.xlsx"))

@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-print('prices_update - initiating.')
+print('other_update - initiating.')
 
 import os
 import pandas as pd
@@ -19,15 +19,11 @@ output_folder = "0_output"
 temp_folder = "temp"
 prices_temp = "prices"
 financials_temp = "financials"
+other_folder = "other"
 
+# CMPcloud API key
 API_key_file = pd.read_csv(os.path.join(cwd,"API_key.csv"))
 api_key = API_key_file.iloc[0,0]
-Companies = fa.available_companies(api_key)
-Companies_type_stock = Companies[Companies["type"] == "stock"]
-Companies_type_stock.reset_index(drop=False, inplace=True)
-Symbols = Companies_type_stock["symbol"]
-Symbols.to_csv(os.path.join(cwd,"0_symbols.csv"))
-print("good! Tickers are downloaded!")
 
 #check year
 todays_date = date.today()
@@ -40,7 +36,7 @@ ticker_narrowed = tickers_narrowed.head(4)
 tickers = ' '.join(tickers_narrowed["symbol"].astype(str)).strip()
 
 # find last updated ticker (this is necessary if you lose internet connection, etc)
-prices_last_ticker = pd.read_csv(os.path.join(cwd,input_folder,temp_folder,"prices_last_ticker.csv"),index_col=0)
+prices_last_ticker = pd.read_csv(os.path.join(cwd,input_folder,temp_folder,"other_last_ticker.csv"),index_col=0)
 last_ticker_n = prices_last_ticker.values[0]
 print("last ticker in prices update was number ", last_ticker_n)
 
@@ -52,20 +48,21 @@ for t in tickers.split(' '):
     try:
         n = pd.to_numeric(tickers_narrowed["symbol"][tickers_narrowed["symbol"] == t].index).values
         if n > last_ticker_n:
-            quote = fa.quote(t, api_key)
-            df = quote.T
-            df = quote.T
+            df = fa.key_metrics(t, api_key)
+            df_T = df.T
+            df_T.reset_index(drop=False,inplace=True)
+            df_T["symbol"] = t
             name = t + ".csv"
-            df.to_csv(os.path.join(cwd, input_folder, temp_folder, prices_temp, name), index=False)
+            df_T.to_csv(os.path.join(cwd, input_folder, temp_folder, other_folder, name), index=True)
 
             # print & export last_n
-            print(t, n/index_max*100, "% /", n, "from", index_max, " /prices")
+            print(t, n/index_max*100, "% /", n, "from", index_max, " /other")
             prices_last_ticker = pd.DataFrame({'number':n})
-            prices_last_ticker.to_csv(os.path.join(cwd, input_folder, temp_folder, "prices_last_ticker.csv"))
+            prices_last_ticker.to_csv(os.path.join(cwd, input_folder, temp_folder, "other_last_ticker.csv"))
     except:
         pass
 
 prices_last_ticker = pd.DataFrame({'number': [0] })
-prices_last_ticker.to_csv(os.path.join(cwd,input_folder,temp_folder,"prices_last_ticker.csv"))
+prices_last_ticker.to_csv(os.path.join(cwd,input_folder,temp_folder,"other_last_ticker.csv"))
 
-print('prices_update - done')
+print('other_update - done')
