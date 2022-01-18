@@ -7,8 +7,7 @@ The catch is, you are still very limited by number of connections to Yahoo. In p
 
 Yahooquery is doing an excellent job if you are within that limit. Literally 5 seconds download for 10000 tickers.
 But if you are above the limit, you need to divide the query into chunks, and reconnect every time to new VPN as soon as you hit the limit.
-
-This code allows to download prices and fundamentals in batches, so if what, you can always restart through different VPN connection.
+So, having a proxy implementation like in yfinance would be great. But i didnt see it working.
+Therefore, you are own your own. Run the codes in order and see for yourself.
 
 Good luck.
-Oh and yes. Still fucking better than yfinance or yahoo_fin. Like jesus Im retarded I didnt start with yahooquery.

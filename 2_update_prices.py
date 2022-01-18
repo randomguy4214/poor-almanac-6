@@ -14,11 +14,11 @@ prices_last_ticker = pd.read_csv(os.path.join(cwd,input_folder,temp_folder,"pric
 last_ticker = prices_last_ticker.values[0]
 last_ticker_n = last_ticker[0]
 print("last batch in prices was", last_ticker_n)
-print("if no update on screen - reduce chunk_size or")
-print("change your VPN /// yahoo blocks IPs with bulk download")
+print("if no update on screen - reduce chunk_size or change your VPN or increase time.sleep")
+print("yahoo allows only 2000 connections per hour from one IP")
 print("-//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//-")
 index_max = pd.to_numeric(df_tickers.index.values.max())
-chunk_size = 500
+chunk_size = 50
 for i in range(last_ticker_n, len(df_tickers), chunk_size):
     try:
         df_chunk = df_tickers[i:i+chunk_size]
@@ -37,9 +37,9 @@ for i in range(last_ticker_n, len(df_tickers), chunk_size):
         print("prices:", index_last, "from", index_max, "/", nnn, "%")
         last_ticker = pd.DataFrame([{'number':index_last}])
         last_ticker.to_csv(os.path.join(cwd, input_folder, temp_folder, "prices_last_ticker.csv"))
+        time.sleep(5)
     except:
-        print('!!! ALERT !!! CHANGE VPN COUNTRY /// YAHOO BLOCKS YOUR IP FOR 1 HOUR /// THE CODE IS STOPPED')
-        print('or reduce the chunk_size')
+        print('!!! FAILED !!! change VPN or reduce the chunk_size or increase time.sleep')
         sys.exit()
         #pass
 
