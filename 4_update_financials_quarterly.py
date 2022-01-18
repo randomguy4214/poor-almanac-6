@@ -16,7 +16,7 @@ prices_last_ticker = pd.read_csv(os.path.join(cwd, input_folder, temp_folder, "f
 last_ticker = prices_last_ticker.values[0]
 last_ticker_n = last_ticker[0]
 print("last batch in quarterly was", last_ticker_n)
-print("if no update on screen - reduce chunk_size or change your VPN or increase time.sleep")
+print("if no update on screen - reduce chunk_size or change your VPN")
 print("yahoo allows only 2000 connections per hour from one IP")
 print("-//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//-")
 index_max = pd.to_numeric(df_tickers.index.values.max())
