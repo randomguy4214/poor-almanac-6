@@ -30,17 +30,17 @@ for path in paths:
 
 # export everything
 prices_table = pd.concat(prices_table)
+prices_table = prices_table.iloc[: , 1:]
 prices_table.drop_duplicates()
-prices_table.to_csv(os.path.join(cwd,input_folder,"2_prices_updated.csv"), index=False)
-prices_table.to_excel(os.path.join(cwd,input_folder,"2_prices_updated.xlsx"))
+prices_table.to_csv(os.path.join(cwd,input_folder,"1_updated_prices.csv"), index=False)
 
 # export tickers
 stocks = prices_table[['symbol']].astype(str).sort_values(by=['symbol'], ascending= True)
 stocks.drop_duplicates()
-stocks.to_csv(os.path.join(cwd,input_folder,"2_tickers_narrowed.csv"), index = False)
+stocks.to_csv(os.path.join(cwd,input_folder,"1_tickers_narrowed.csv"), index = False)
 
 # export columns
 df_columns=pd.DataFrame(prices_table.columns.T)
-df_columns.to_excel(os.path.join(cwd,input_folder,'2_tickers_narrowed_columns.xlsx'))
+df_columns.to_csv(os.path.join(cwd,input_folder,'2_tickers_narrowed_columns.csv'))
 
-print('prices_process - done')
+print('process_prices - done')
