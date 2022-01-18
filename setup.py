@@ -4,9 +4,9 @@ setup(
     name='poor-almanac-5',
     version='',
     packages=['bundle_main'],
-    install_requires=['yahoo_fin', 'pandas', 'openpyxl', 'requests_html'],
+    install_requires=['yahooquery', 'pandas', 'openpyxl', 'requests_html'],
     url='',
-    license='',
+    license='MIT',
     author='https://old.reddit.com/user/randomguy53124/',
     author_email='',
     description=''

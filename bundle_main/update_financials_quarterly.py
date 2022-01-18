@@ -1,5 +1,5 @@
 #!/usr/bin/python
-print('prices_update - initiating.')
+print('update_financials_quarterly - initiating.')
 
 import os
 import pandas as pd
@@ -14,42 +14,40 @@ temp_folder = "temp"
 prices_temp = "prices"
 financials_temp = "financials_quarterly"
 
-#check year
+# check year
 todays_date = date.today()
 curr_year = todays_date.year
 
 # prepare tickers, find last batch
-df_tickers = pd.read_csv(os.path.join(cwd,"0_symbols.csv"))
-prices_last_ticker = pd.read_csv(os.path.join(cwd,input_folder,temp_folder,"prices_last_ticker.csv"),index_col=0)
+df_tickers = pd.read_csv(os.path.join(cwd, "0_symbols.csv"))
+prices_last_ticker = pd.read_csv(os.path.join(cwd, input_folder, temp_folder, "financials_quarterly_last_ticker.csv"), index_col=0)
 last_ticker = prices_last_ticker.values[0]
 last_ticker_n = last_ticker[0]
-print("last batch in prices was", last_ticker_n)
+print("last batch in quarterly was", last_ticker_n)
 
-# start importing the prices
+# start importing
 index_max = pd.to_numeric(df_tickers.index.values.max())
 chunk_size = 100
-for t in tickers.split(' '):
+for i in range(last_ticker_n, len(df_tickers), chunk_size):
     try:
-        n = pd.to_numeric(tickers_narrowed["symbol"][tickers_narrowed["symbol"] == t].index).values
-        if n > last_ticker_n:
-
-            # download quarterly data
-            df_quarter = yq.Ticker(tickers, asynchronous=True).all_financial_data(frequency="q")
-            output_quarter = 'df_quarter.xlsx'
-            df_quarter.to_excel(os.path.join(cwd, output_quarter))
-
-            # print & export last_n
-            print(t, n/index_max*100, "% /", n, "from", index_max, " /financials quarterly")
-            financials_quarterly_last_ticker = pd.DataFrame({'number':n})
-            financials_quarterly_last_ticker.to_csv(os.path.join(cwd, input_folder, temp_folder, "financials_quarterly_last_ticker.csv"))
-            # export files
-            name = t + ".csv"
-            df_merged.to_csv(os.path.join(cwd, input_folder, temp_folder, financials_temp, name), index=False)
+        df_chunk = df_tickers[i:i+9]
+        index_last = pd.to_numeric(df_chunk.index.values.max())
+        tickers_narrowed = df_chunk.values.tolist()
+        tickers = ' '.join(df_chunk["symbol"].astype(str)).strip()
+        # download
+        df = yq.Ticker(tickers, asynchronous=True).all_financial_data(frequency="q")
+        print(df)
+        output_string = 'df_quarter_' + str(index_last) + '.csv'
+        df.to_csv(os.path.join(cwd,input_folder,temp_folder,financials_temp,output_string))
+        # print & export last_n
+        nnn = int(index_last/index_max*100)
+        print("quarter:", index_last, "from", index_max, "/", nnn, "%")
+        last_ticker = pd.DataFrame([{'number':index_last}])
+        last_ticker.to_csv(os.path.join(cwd, input_folder, temp_folder, "financials_quarterly_last_ticker.csv"))
     except:
         pass
 
-financials_quarterly_last_ticker = pd.DataFrame({'number': [0]})
-financials_quarterly_last_ticker.to_csv(
+last_ticker = pd.DataFrame({'number': [0]})
+last_ticker.to_csv(
     os.path.join(cwd, input_folder, temp_folder, "financials_quarterly_last_ticker.csv"))
-
-print('financials_update_quarterly - done')
+print('update_financials_quarterly - done')
