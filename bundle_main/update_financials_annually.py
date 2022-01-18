@@ -5,7 +5,7 @@ print('financials_update_annually - initiating. Printing Stock and % Progress.')
 import os
 import pandas as pd
 from datetime import date
-import FundamentalAnalysis as fa
+import yahooquery as yq
 
 pd.set_option('display.max_columns', None)
 pd.options.display.float_format = '{:20,.2f}'.format
@@ -18,10 +18,6 @@ output_folder = "0_output"
 temp_folder = "temp"
 prices_temp = "prices"
 financials_temp = "financials_annually"
-
-# CMPcloud API key
-API_key_file = pd.read_csv(os.path.join(cwd,"API_key.csv"))
-api_key = API_key_file.iloc[0,0]
 
 #check year
 todays_date = date.today()
@@ -46,11 +42,10 @@ for t in tickers.split(' '):
         n = pd.to_numeric(tickers_narrowed["symbol"][tickers_narrowed["symbol"] == t].index).values
         if n > last_ticker_n:
 
-            income_statement_annual = fa.income_statement(t, api_key, period="annual")
-            df = income_statement_annual.T #.head(4)
-            df["symbol"] = t
-            name = t + ".csv"
-            df.to_csv(os.path.join(cwd, input_folder, temp_folder, financials_temp, name), index=False)
+            # download annual data
+            df_annual = yq.Ticker(tickers, asynchronous=True).all_financial_data(frequency="a")
+            output_annual = 'df_annual.xlsx'
+            df_annual.to_excel(os.path.join(cwd, output_annual))
 
             # print & export last_n
             print(t, n/index_max*100, "% /", n, "from", index_max, " /financials annually")

@@ -4,7 +4,6 @@ print('0 checks - initiated')
 
 import os
 import pandas as pd
-import FundamentalAnalysis as fa
 
 pd.options.mode.chained_assignment = None  # default='warn'
 
@@ -118,13 +117,5 @@ if not os.path.exists(os.path.join(cwd,input_folder,temp_folder,"other_last_tick
     print("other_last_ticker created")
 else:
     print("good! other_last_ticker already exists")
-
-# check API_key
-if not os.path.exists(os.path.join(cwd,"API_key.csv")):
-    financials_annually_last_ticker = pd.DataFrame({'API_key': [0] })
-    financials_annually_last_ticker.to_csv(os.path.join(cwd,"API_key.csv"))
-    print("API_key created / please put your number in!!!")
-else:
-    print("good! API_key already exists")
 
 print('0 checks - done')
