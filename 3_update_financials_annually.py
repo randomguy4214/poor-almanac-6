@@ -39,7 +39,7 @@ for i in range(last_ticker_n, len(df_tickers), chunk_size):
 
         time.sleep(5)
     except:
-        print('!!! ERROR !!! change VPN or reduce the chunk_size or increase time.sleep')
+        print('!!! ERROR !!! change VPN or reduce the chunk_size')
         sys.exit()
         #pass
 

@@ -39,7 +39,7 @@ for i in range(last_ticker_n, len(df_tickers), chunk_size):
         last_ticker.to_csv(os.path.join(cwd, input_folder, temp_folder, "prices_last_ticker.csv"))
         time.sleep(5)
     except:
-        print('!!! FAILED !!! change VPN or reduce the chunk_size or increase time.sleep')
+        print('!!! FAILED !!! change VPN or reduce the chunk_size')
         sys.exit()
         #pass
 
