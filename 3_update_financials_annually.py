@@ -1,5 +1,5 @@
 #!/usr/bin/python
-print('update_financials_quarterly - initiating.')
+print('update_financials_annually - initiating.')
 import sys, os
 import pandas as pd
 import yahooquery as yq
