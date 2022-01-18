@@ -16,8 +16,9 @@ last_ticker = prices_last_ticker.values[0]
 last_ticker_n = last_ticker[0]
 print("last batch in annual was", last_ticker_n)
 print("if no update on screen - change your VPN /// yahoo blocks IPs with bulk download")
+print("-//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//-")
 index_max = pd.to_numeric(df_tickers.index.values.max())
-chunk_size = 300
+chunk_size = 50
 for i in range(last_ticker_n, len(df_tickers), chunk_size):
     try:
         df_chunk = df_tickers[i:i+chunk_size]
@@ -34,7 +35,8 @@ for i in range(last_ticker_n, len(df_tickers), chunk_size):
         last_ticker = pd.DataFrame([{'number':index_last}])
         last_ticker.to_csv(os.path.join(cwd, input_folder, temp_folder, "financials_annually_last_ticker.csv"))
     except:
-        print('!!! ALERT !!! CHANGE VPN COUNTRY /// YAHOO BLOCKS YOUR IP FOR 2 HOURS')
+        print('!!! ALERT !!! CHANGE VPN COUNTRY /// YAHOO BLOCKS YOUR IP FOR 1 HOUR /// THE CODE IS STOPPED')
+        print('sometimes, reducing chunk size helps')
         sys.exit()
         #pass
 
