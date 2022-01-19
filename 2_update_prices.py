@@ -14,7 +14,7 @@ prices_last_ticker = pd.read_csv(os.path.join(cwd,input_folder,temp_folder,"pric
 last_ticker = prices_last_ticker.values[0]
 last_ticker_n = last_ticker[0]
 print("last batch in prices was", last_ticker_n)
-print("if no update on screen - reduce chunk_size or change your VPN")
+print("if no update on screen - change your IP and/or reduce chunk_size")
 print("yahoo allows only 2000 connections per hour from one IP")
 print("-//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//-")
 index_max = pd.to_numeric(df_tickers.index.values.max())
@@ -39,7 +39,7 @@ for i in range(last_ticker_n, len(df_tickers), chunk_size):
         last_ticker.to_csv(os.path.join(cwd, input_folder, temp_folder, "prices_last_ticker.csv"))
         time.sleep(5)
     except:
-        print('!!! FAILED !!! change VPN or reduce the chunk_size')
+        print('!!! ERROR !!! change your IP and/or reduce the chunk_size')
         sys.exit()
         #pass
 
