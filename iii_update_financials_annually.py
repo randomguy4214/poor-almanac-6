@@ -11,8 +11,8 @@ output_folder = "0_output"
 temp_folder = "temp"
 prices_temp = "prices"
 financials_temp = "financials_annually"
-df_proxies = pd.read_csv(os.path.join(cwd, "0_proxies.csv"))
-dict_proxies = df_proxies.to_dict('records')
+df_proxies = pd.read_csv(os.path.join(cwd, "0_proxies.csv"), header=None, index_col=None, squeeze=True).drop_duplicates()
+dict_proxies = df_proxies.to_dict()
 df_tickers = pd.read_csv(os.path.join(cwd, "0_symbols.csv"))
 prices_last_ticker = pd.read_csv(os.path.join(cwd, input_folder, temp_folder, "financials_annually_last_ticker.csv"), index_col=0)
 last_ticker = prices_last_ticker.values[0]
@@ -22,16 +22,16 @@ print("if no update on screen - change your IP and/or reduce chunk_size")
 print("yahoo allows only 2000 connections per hour from one IP")
 print("-//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//-")
 index_max = pd.to_numeric(df_tickers.index.values.max())
-chunk_size = 40
+chunk_size = 50
 for i in range(last_ticker_n, len(df_tickers), chunk_size):
     try:
         df_chunk = df_tickers[i:i+chunk_size]
         index_last = pd.to_numeric(df_chunk.index.values.max())
         tickers_narrowed = df_chunk.values.tolist()
         tickers = ' '.join(df_chunk["symbol"].astype(str)).strip()
-        print(tickers)
         # download
         df = yq.Ticker(tickers, asynchronous=True).all_financial_data(frequency="a")
+        print(df)
         output_string = 'df_annual_' + str(index_last) + '.csv'
         df.to_csv(os.path.join(cwd,input_folder,temp_folder,financials_temp,output_string))
         # print & export last_n
