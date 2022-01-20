@@ -16,11 +16,11 @@ prices_last_ticker = pd.read_csv(os.path.join(cwd, input_folder, temp_folder, "f
 last_ticker = prices_last_ticker.values[0]
 last_ticker_n = last_ticker[0]
 print("last batch in quarterly was", last_ticker_n)
-print("if no update on screen - change your IP and/or reduce chunk_size")
+print("if no update on screen - change your proxy in settings and/or reduce chunk_size")
 print("yahoo allows only 2000 connections per hour from one IP")
 print("-//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//-")
 index_max = pd.to_numeric(df_tickers.index.values.max())
-chunk_size = 50
+chunk_size = 100
 for i in range(last_ticker_n, len(df_tickers), chunk_size):
     try:
         df_chunk = df_tickers[i:i+chunk_size]
@@ -36,9 +36,8 @@ for i in range(last_ticker_n, len(df_tickers), chunk_size):
         print("quarter:", index_last, "from", index_max, "/", nnn, "%")
         last_ticker = pd.DataFrame([{'number':index_last}])
         last_ticker.to_csv(os.path.join(cwd, input_folder, temp_folder, "financials_quarterly_last_ticker.csv"))
-        time.sleep(5)
     except:
-        print('!!! ERROR !!! change your IP and/or reduce the chunk_size')
+        print('!!! ERROR !!! change your proxy and/or reduce the chunk_size')
         sys.exit()
         #pass
 
